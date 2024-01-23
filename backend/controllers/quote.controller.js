@@ -30,7 +30,7 @@ const getQuotes = (req, res) => {
 
   console.log(process.env.EMAIL);
 
-  cron.schedule("10 * * * *", async () => {
+  cron.schedule("59 * * * *", async () => {
     const AllQuotes = await QuoteModel.find();
 
     const randomQuotes =
