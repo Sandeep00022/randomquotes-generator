@@ -44,14 +44,13 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const result = await UserModel.findOne({ email: email });
-  const match = await bcrypt.compare(password, result.password);
 
-  if (match) {
-    if (result) {
-      const token = jwt.sign({ email: email }, "shhhhh");
-
+  if (result) {
+    const match = await bcrypt.compare(password, result.password);
+    const token = jwt.sign({ email: email }, "shhhhh");
+    if (match) {
       res.status(200).json({
-        success: true,
+        result: "Login successful",
         token: token,
       });
     } else {
@@ -59,8 +58,11 @@ const login = async (req, res) => {
       return;
     }
   } else {
-    res.send("login failed");
+    res.status(200).json({
+      result: "User not Exists",
+      token: "",
+    });
   }
 };
 
-module.exports = { signup,login };
+module.exports = { signup, login };

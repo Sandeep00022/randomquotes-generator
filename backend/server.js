@@ -1,5 +1,6 @@
 const express = require("express");
 const env = require("dotenv");
+const cors = require('cors');
 
 env.config();
 // local modules
@@ -8,6 +9,7 @@ const userRoute = require("./routes/user.routes");
 const quoteRoute = require("./routes/quote.rourtes");
 
 const app = express();
+app.use(cors({origin:"*"}))
 app.use(express.json());
 
 app.get("/", (req, res) => {
