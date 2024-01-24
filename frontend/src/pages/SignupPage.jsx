@@ -27,6 +27,7 @@ export default function SignupCard() {
     password: "",
     email: "",
   });
+  const [loading, setLoading] = useState(false);
   const { baseUrl } = useContext(BaseURLContext);
 
   const handleChange = (e) => {
@@ -42,21 +43,50 @@ export default function SignupCard() {
   // registering User
   console.log(baseUrl);
   const registerUser = () => {
+    const { name, email, password } = userData;
+    if (name == "" || email == "" || password == "") {
+      toast({
+        title: "Please fill all the fields",
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+
+    setLoading(true);
     axios(`${baseUrl}/user/signup`, {
       method: "POST",
       data: JSON.stringify(userData),
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((res) => {
+    }).then((res) => {
+      if (res.data === "email already exists") {
+        toast({
+          title: res.data,
+          status: "error",
+          isClosable: true,
+        });
+        setLoading(false);
+        return;
+      } else if (res.data === "email not exists") {
+        toast({
+          title: res.data,
+          status: "error",
+          isClosable: true,
+        });
+        setLoading(false);
+        return;
+      } else {
         toast({
           title: res.data,
           status: "success",
           isClosable: true,
         });
-      })
-      .then(() => navigate("/login"));
+        navigate("/login");
+      }
+    });
+
     setUserdata({
       name: "",
       password: "",
@@ -131,6 +161,7 @@ export default function SignupCard() {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
+                isLoading={loading == true}
                 loadingText="Submitting"
                 size="lg"
                 bg={"blue.400"}
@@ -144,7 +175,12 @@ export default function SignupCard() {
               </Button>
             </Stack>
             <Stack pt={6}>
-              <Text align={"center"}>Already a user?<Link to="/login"><Text color={'blue'}>Login</Text></Link></Text>
+              <Text align={"center"}>
+                Already a user?
+                <Link to="/login">
+                  <Text color={"blue"}>Login</Text>
+                </Link>
+              </Text>
             </Stack>
           </Stack>
         </Box>

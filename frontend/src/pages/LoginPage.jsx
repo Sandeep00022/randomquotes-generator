@@ -27,6 +27,8 @@ export default function LoginCard() {
     password: "",
     email: "",
   });
+ const [loading, setLoading] = useState(false)
+
   const toast = useToast();
   const { baseUrl } = useContext(BaseURLContext);
 
@@ -45,6 +47,7 @@ export default function LoginCard() {
   // registering User
   console.log(baseUrl);
   const loginUser = () => {
+    setLoading(true);
     axios(`${baseUrl}/user/login`, {
       method: "POST",
       data: JSON.stringify(userData),
@@ -63,13 +66,14 @@ export default function LoginCard() {
         navigate("/quote");
       } else {
         toast({
-          title: res.data.result,
+          title: "invalid username or password",
           status: "error",
           isClosable: true,
         });
-        navigate("/");
+        setLoading(false)
       }
     });
+  
   };
 
   return (
@@ -127,6 +131,7 @@ export default function LoginCard() {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
+               isLoading={loading===true}
                 loadingText="Submitting"
                 size="lg"
                 bg={"blue.400"}

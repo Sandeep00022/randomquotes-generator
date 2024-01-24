@@ -28,9 +28,9 @@ const createQuotes = (req, res) => {
 const getQuotes = (req, res) => {
   const { email } = req.body;
 
-  console.log(process.env.EMAIL);
+  console.log(process.env.EMAIL) ;
 
-  cron.schedule("59 * * * *", async () => {
+  cron.schedule("* * * * *", async () => {
     const AllQuotes = await QuoteModel.find();
 
     const randomQuotes =

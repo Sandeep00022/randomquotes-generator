@@ -10,8 +10,9 @@ import {
   Icon,
   IconProps,
   useToast,
+  Box,
 } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { BaseURLContext } from "../components/AuthContext";
 import axios from "axios";
 import { Fireworks } from "fireworks-js";
@@ -838,8 +839,11 @@ const Illustration = (props: IconProps) => {
 };
 
 export default function QuotePage() {
+  const [clicked, setClicked] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { baseUrl } = useContext(BaseURLContext);
   const handleQuotes = () => {
+    setLoading(true);
     axios(`${baseUrl}/quote/randomquotes`, {
       method: "GET",
       headers: {
@@ -855,6 +859,7 @@ export default function QuotePage() {
         duration: 5000,
         isClosable: true,
       });
+      setClicked(true);
     });
   };
 
@@ -885,16 +890,43 @@ export default function QuotePage() {
           things in life, including our quotes, are free! 🌈💌 .
         </Text>
         <Stack spacing={6} direction={"row"}>
-          <Button
-            rounded={"full"}
-            px={10}
-            colorScheme={"orange"}
-            bg={"orange.400"}
-            _hover={{ bg: "orange.500" }}
-            onClick={handleQuotes}
-          >
-            Click here to Start getting quotes
-          </Button>
+          {clicked ? (
+            <Box textAlign="center" p={4}>
+              <Heading color="teal.500" mb={4}>
+                Congratulations! 🎉
+              </Heading>
+              <Text fontSize="xl" mb={4}>
+                You are now successfully subscribed to receive daily quotes in
+                your Gmail inbox! 😍
+              </Text>
+              <Text fontSize="lg" mb={4}>
+                Get ready to start your day with inspiration and positivity.
+              </Text>
+              <Text fontSize="lg" mb={4}>
+                If you ever want to change your preferences or have any
+                questions, feel free to reach out.
+              </Text>
+              <Text fontSize="lg" mb={4}>
+                Thank you for choosing us to brighten your day!
+              </Text>
+              {/* You can add a button to redirect to another page or perform another action */}
+              <Button colorScheme="teal" size="lg">
+                Explore More
+              </Button>
+            </Box>
+          ) : (
+            <Button
+              isLoading={loading === true}
+              rounded={"full"}
+              px={10}
+              colorScheme={"orange"}
+              bg={"orange.400"}
+              _hover={{ bg: "orange.500" }}
+              onClick={handleQuotes}
+            >
+              Click here to Start getting quotes
+            </Button>
+          )}
         </Stack>
         <Flex w={"full"}>
           <Illustration

@@ -4,7 +4,7 @@ export const BaseURLContext = createContext();
 
 const AuthContext = ({ children }) => {
   const [token, setToken] = useState("");
-  const [baseUrl, setBaseUrl] = useState("http://localhost:8080");
+  const [baseUrl, setBaseUrl] = useState("https://randomquote-genapplication.onrender.com");
 
   return (
     <BaseURLContext.Provider value={{ token, setToken, baseUrl }}>
