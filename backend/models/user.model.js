@@ -19,6 +19,11 @@ const userSchema = mongoose.Schema({
     enem: ["user"],
     default: "user",
   },
+  isAdmin:{
+    type: Boolean,
+    required: true,
+    default: false,
+  }
 });
 
 const UserModel = mongoose.model("user", userSchema);

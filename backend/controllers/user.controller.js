@@ -47,9 +47,9 @@ const login = async (req, res) => {
 
   if (result) {
     const match = await bcrypt.compare(password, result.password);
-    const token = jwt.sign({ email: email }, "shhhhh");
+    const token = jwt.sign({ email: email,isAdmin }, "shhhhh");
     if (match) {
-      res.status(200).json({
+      res.status(200).cookie("access_token", token).json({
         result: "Login successful",
         token: token,
       });
