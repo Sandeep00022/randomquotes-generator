@@ -28,7 +28,7 @@ const createQuotes = (req, res) => {
 const getQuotes = (req, res) => {
   const { email } = req.body;
 
-  console.log(process.env.EMAIL) ;
+  console.log(process.env.EMAIL);
 
   cron.schedule("0 9 * * *", async () => {
     const AllQuotes = await QuoteModel.find();
@@ -77,4 +77,6 @@ const getQuotes = (req, res) => {
   res.send("quotes has been sent successfully");
 };
 
-module.exports = { createQuotes, getQuotes };
+const addNewQuote = () => {}
+
+module.exports = { createQuotes, getQuotes, addNewQuote };
