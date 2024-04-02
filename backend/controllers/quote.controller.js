@@ -77,6 +77,30 @@ const getQuotes = (req, res) => {
   res.send("quotes has been sent successfully");
 };
 
-const addNewQuote = () => {}
+const addNewQuote = (req, res) => {
+  const { quote, author } = req.body;
+  try {
+    if (!quote || !author) {
+      return res.status(400).json({
+        message: "please fill all the fields",
+        success: false,
+      });
+    }
+    const newQuote = QuoteModel({
+      quote,
+      author,
+    });
+    newQuote.save();
+    res.status(200).json({
+      success: true,
+      data: newQuote,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 module.exports = { createQuotes, getQuotes, addNewQuote };
