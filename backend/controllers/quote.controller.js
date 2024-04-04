@@ -8,22 +8,22 @@ env.config();
 
 const QuoteModel = require("../models/quotes.model");
 
-const createQuotes = (req, res) => {
-  try {
-    const { quote, author } = req.body;
-    const newQuote = new QuoteModel({ quote, author });
-    newQuote.save();
-    res.status(200).json({
-      success: true,
-      data: newQuote,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+// const createQuotes = (req, res) => {
+//   try {
+//     const { quote, author } = req.body;
+//     const newQuote = new QuoteModel({ quote, author });
+//     newQuote.save();
+//     res.status(200).json({
+//       success: true,
+//       data: newQuote,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
 
 const getQuotes = (req, res) => {
   const { email } = req.body;
